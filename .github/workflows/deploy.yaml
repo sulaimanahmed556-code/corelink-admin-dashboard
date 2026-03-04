@@ -45,7 +45,7 @@ jobs:
 
           cd ${{env.DEPLOY_DIR}}
           
-          echo "VITE_API_URL=${{env.BACKEND_BASE}}">>.env
+          echo "VITE_API_URL=${{env.BACKEND_BASE}}/api/v1">>.env
 
           npm install
 
