@@ -14,6 +14,7 @@ env:
   GIT_REPO: git@github.com:sulaimanahmed556-code/corelink-admin-dashboard.git
   PRIV_KEY: ${{secrets.CORELINK_SSH_PRIV_KEY}}
   DOMAIN_NAME: admin.coreliink.com
+  BACKEND_BASE: https://app.coreliink.com
 
 jobs:
   deploy:
@@ -31,7 +32,7 @@ jobs:
 
       - name: Make Deply DEPLOY_DIR
         run: |
-          ssh ${{env.VPS_USER}}@${{env.VPS_HOST}} "mkdir -p ${{env.DEPLOY_DIR}} && cd ${{env.DEPLOY_DIR}} && mv .env /tmp/.env.backup 2>/dev/null || true && rm -rf ./* .[^.]* + && GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone ${{ env.GIT_REPO }} . && mv /tmp/.env.backup .env 2>/dev/null || true"
+          ssh ${{env.VPS_USER}}@${{env.VPS_HOST}} "mkdir -p ${{env.DEPLOY_DIR}} && cd ${{env.DEPLOY_DIR}} && rm -rf ./* .[^.]* + && GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone ${{ env.GIT_REPO }} . 
 
       
 
@@ -43,6 +44,9 @@ jobs:
           set -e
 
           cd ${{env.DEPLOY_DIR}}
+          
+          echo "VITE_API_URL=${{env.BACKEND_BASE}}">>.env
+
           npm run build
 
           DEPLOY_DIR=${{ env.DEPLOY_DIR }}
