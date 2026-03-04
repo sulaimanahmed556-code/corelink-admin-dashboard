@@ -47,6 +47,8 @@ jobs:
           
           echo "VITE_API_URL=${{env.BACKEND_BASE}}">>.env
 
+          npm install
+
           npm run build
 
           DEPLOY_DIR=${{ env.DEPLOY_DIR }}
